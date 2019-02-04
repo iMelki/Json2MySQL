@@ -1,0 +1,15 @@
+{
+  "name": "json2mysql",
+  "version": "1.0.0",
+  "description": "input: JSON file path. The app creates a MySQL DB that holds the data from the input file.",
+  "main": "Json2MySQL.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node Json2MySQL.js './inputs/accounts.json'"
+  },
+  "author": "Ilan Melki",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.16.0"
+  }
+}
