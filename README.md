@@ -1,4 +1,4 @@
-# Project Title
+# Json2MySQL
 
 The task is to take a json file and dynamically pass all its documents into a mysql database table.
 
