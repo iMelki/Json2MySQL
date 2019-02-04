@@ -1,1 +1,2 @@
-console.log("JSON 2 MySQL App!");
+
+json = process.argv[2];  

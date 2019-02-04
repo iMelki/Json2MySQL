@@ -5,7 +5,7 @@
   "main": "Json2MySQL.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node Json2MySQL.js './inputs/accounts.json'"
+    "start": "node Json2MySQL.js ./inputs/accounts.json"
   },
   "author": "Ilan Melki",
   "license": "ISC",

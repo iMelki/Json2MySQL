@@ -6,9 +6,9 @@ The task is to take a json file and dynamically pass all its documents into a my
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
 ```
-node Json2MySQL.js %fileAdd%
+git...
 ```
-Where %fileAdd% should be replaced with the input JSON file path.
+
 
 ### Prerequisites
 
@@ -17,7 +17,7 @@ Node.js
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+Download & Install [Node.js](https://nodejs.org/en/)
 
 Say what the step will be
 
@@ -33,9 +33,15 @@ until finished
 
 End with an example of getting some data out of the system or using it for a little demo
 
-## Running the tests
+## Running the app
+First go to the directory of the app.
+Now, this instruction will run the app on your local machine.
 
-Explain how to run the automated tests for this system
+```
+node Json2MySQL.js %fileAdd%
+```
+Where %fileAdd% should be replaced with the input JSON file path.
+
 
 ### Break down into end to end tests
 
@@ -73,17 +79,11 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Ilan Melki** 
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+This project is licensed under the GNU GPL v3.0 License - see the [LICENSE.md](LICENSE.md) file for details
 
