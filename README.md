@@ -26,6 +26,9 @@ node Json2MySQL.js %fileAdd%
 ```
 Where %fileAdd% should be replaced with the input JSON file path.
 
+Note: node Json2MySQL.js %fileAdd% true 
+to see app progress-comments in the console.
+
 
 ## Author
 * **Ilan Melki** 

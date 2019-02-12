@@ -7,8 +7,9 @@
   "description": "input: JSON file path. The app creates a MySQL DB that holds the data from the input file.",
   "main": "Json2MySQL.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node Json2MySQL.js inputs/data.json"
+    "test1": "echo \"Error: no test specified\" && exit 1",
+    "test": "node Json2MySQL.js inputs/data.json true",
+    "start": "node Json2MySQL.js inputs/accounts.json"
   },
   "author": "Ilan Melki",
   "license": "ISC",
@@ -17,7 +18,7 @@
     "JSONStream": "^1.3.5",
     "async": "^2.6.1",
     "bookshelf": "^0.14.2",
-    "event-stream": "^3.3.4",
+    "event-stream": "^4.0.1",
     "knex": "^0.16.3",
     "mysql": "^2.16.0",
     "objectid": "^3.2.1",
