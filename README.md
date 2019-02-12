@@ -19,15 +19,19 @@ Download & Install [Node.js](https://nodejs.org/en/)
 
 ## Running the app
 First go to the directory of the app.
-Now, this instruction will run the app on your local machine.
+Now, this command will run the app on your local machine.
 
 ```
 node Json2MySQL.js %fileAdd%
 ```
 Where %fileAdd% should be replaced with the input JSON file path.
 
-Note: node Json2MySQL.js %fileAdd% true 
-to see app progress-comments in the console.
+Note: add true at the end if you want 
+to see app progress-comments in the console:
+```
+node Json2MySQL.js %fileAdd% true
+``` 
+
 
 
 ## Author
