@@ -15,10 +15,16 @@ Node.js
 
 ### Installing
 Download & Install [Node.js](https://nodejs.org/en/)
+Go to the directory of the app
+Enter the command:
+```
+npm install
+```
+
 
 
 ## Running the app
-First go to the directory of the app.
+Go to the directory of the app.
 Now, this command will run the app on your local machine.
 
 ```
