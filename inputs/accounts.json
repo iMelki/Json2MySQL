@@ -104967,7 +104967,7 @@
         "fieldY" : true, 
         "fieldX" : 2
     }, 
-    "build" : {
+    "build" :{
         "parallel" : 2, 
         "nodes" : 3
     }, 
@@ -104988,7 +104988,7 @@
         "fieldY" : true, 
         "fieldX" : 2
     }, 
-    "build" : {
+    "build" :{
         "parallel" : 2, 
         "nodes" : 3
     }, 

@@ -34,10 +34,9 @@ Where %fileAdd% should be replaced with the input JSON file path.
 
 
 
-Note: add true at the end if you want 
-to see app progress-comments in the console:
+Note: to see app's progress with debug comments in the console:
 ```
-node Json2MySQL.js %fileAdd% true
+SET DEBUG=Main,DB & node Json2MySQL.js %fileAdd%
 ``` 
 
 
