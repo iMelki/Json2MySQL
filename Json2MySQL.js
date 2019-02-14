@@ -69,11 +69,12 @@ var getStream = function () {
 //start Streaming and deal with each JSO seperately 
 var getTableFromFirstObject = function(){
     debug('Streaming the first JSO from the input file to build a table..');
-    getStream()
-        .pipe(es.mapSync(function (obj) {
+    var firstStream = getStream();
+    firstStream.pipe(es.mapSync(function (obj) {
             if (first){
                 first = false;
                 db.buildTable(obj);
+                //firstStream.distroy();
             }
         }));   
 }
@@ -87,7 +88,7 @@ var startStreaming = function(){
         }));   
 }
 
-eventEmitter.on('Database_created!', getTableFromFirstObject);
+//eventEmitter.on('Database_created!', getTableFromFirstObject);
 
 eventEmitter.on('Table_created!', startStreaming);
 
@@ -96,8 +97,10 @@ eventEmitter.on('Table_created!', startStreaming);
 async function startScript(){
     try{
         await appInit();
-        await db.init(config.host, config.user, config.password, config.dbName, config.tblName, eventEmitter, config.showConsoleComments);
+        await db.init(config.host, config.user, config.password, config.dbName, config.tblName, eventEmitter);
         await db.runDatabase();
+        getTableFromFirstObject();
+        //db.endConnection();
     }catch(err){
         console.log(err.message);
     }

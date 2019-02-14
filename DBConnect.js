@@ -1,6 +1,6 @@
 
 // Require modules:
-var mysql = require('mysql');
+var mysql = require('promise-mysql');
 var debug = require('debug')('DB');
 var events = require('events');
 var eventEmitter = new events.EventEmitter();
@@ -28,7 +28,7 @@ var _tblName = "";
 exports.init = async function(hostStr, userStr, pwStr, dbName, tblName, emitter){
     debug('initializing DB');
     [_host, _user, _password, _dbName, _tblName, eventEmitter] = [hostStr, userStr, pwStr, dbName, tblName, emitter];
-    eventEmitter.on('MySql_Connected.', createDB);//createDB//dropDB
+    //eventEmitter.on('MySql_Connected.', createDB);//createDB//dropDB
 }
 
 // Start all functions sequentially 
@@ -38,7 +38,8 @@ exports.init = async function(hostStr, userStr, pwStr, dbName, tblName, emitter)
 exports.runDatabase = async function(){
     try{
         _connection = await crtConnection();
-        await connectToDB();
+        //await connectToDB();
+        await createDB();
     }catch(err){
         console.log('Error connecting to DB!\n', err);
         dropDB();
@@ -65,14 +66,16 @@ exports.buildTable = async function(obj){
         i++;
     }
     
-    _connection.query(sqlQry, (err, result) => {
+    
+    await _connection.query(sqlQry
+        /*, (err, result) => {
         if(err){ 
             debug(sqlQry);
             throw err;
         }
-        debug('Table created!');
-        eventEmitter.emit('Table_created!');
-    });
+    }*/);
+    debug('Table created!');
+    eventEmitter.emit('Table_created!');
 }
 
 /**
@@ -81,7 +84,7 @@ exports.buildTable = async function(obj){
  * @param {String} tableName - the table to insert to 
  * @param {Object} jsonData - the JSO 
  */
-exports.insertToDB = function (jsonData) {
+exports.insertToDB = async function (jsonData) {
     //if(showConsoleComments) console.log("insert Qry:");
     if (jsonData) {
         if (Object.size(jsonData) > 0) {
@@ -116,7 +119,7 @@ exports.insertToDB = function (jsonData) {
                 mysqlQuery += (i + 1 == Object.size(jsonData) ? ') ' : ', ');
                 i++;
             }
-            _connection.query(mysqlQuery);
+            await _connection.query(mysqlQuery);
             // if(showConsoleComments) console.log(mysqlQuery);
         }
         else {
@@ -128,6 +131,10 @@ exports.insertToDB = function (jsonData) {
     }
 };
  
+exports.endConnection = function(){
+    debug('end connection.');
+    _connection.end();
+}
 
 // Accessory Functions:
 ///////////////////////            
@@ -147,7 +154,7 @@ async function crtConnection(){
     return connection;
     
 }
-
+/*
 // Connect to DB
 async function connectToDB(){
     debug('trying to connect..');
@@ -156,19 +163,20 @@ async function connectToDB(){
             throw new Error('Error connecting to database!\n', err);
         }
         debug('MySql Connected.');
-        eventEmitter.emit('MySql_Connected.');
+        //eventEmitter.emit('MySql_Connected.');
     });
 }
-
+*/
 // Create DB
 var createDB = function(){
     debug('creating DB..');
     var sqlQry = 'CREATE DATABASE IF NOT EXISTS '+_dbName;
-    _connection.query(sqlQry, function (err, result) {
+    _connection.query(
+        sqlQry/*, function (err, result) {
         if(err) throw err;
-        debug('Database created!');
         eventEmitter.emit('Database_created!');
-    });
+    }*/);
+    debug('Database created!');
 }
 
 /**
