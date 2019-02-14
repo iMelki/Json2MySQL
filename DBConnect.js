@@ -7,18 +7,13 @@ var eventEmitter = new events.EventEmitter();
 
 // Create Events:
 var eventEmitter;
-//eventEmitter.on('MySql Connected.', dropDB);
 
-//var db;
 var _connection;
 var _host = "";
 var _user = "";
 var _password = "";
 var _dbName = "";
 var _tblName = "";
-var initialized = false;
-var showConsoleComments = false;
-
 
 
 // Public Functions:
@@ -30,10 +25,9 @@ var showConsoleComments = false;
  * @param {*string} userStr DB username
  * @param {*string} pwStr DB password
  */
-exports.init = async function(hostStr, userStr, pwStr, dbName, tblName, emitter, debugMode){
+exports.init = async function(hostStr, userStr, pwStr, dbName, tblName, emitter){
     debug('initializing DB');
-    [_host, _user, _password, _dbName, _tblName, eventEmitter, showConsoleComments] = [hostStr, userStr, pwStr, dbName, tblName, emitter, debugMode];
-    initialized = true;
+    [_host, _user, _password, _dbName, _tblName, eventEmitter] = [hostStr, userStr, pwStr, dbName, tblName, emitter];
     eventEmitter.on('MySql_Connected.', createDB);//createDB//dropDB
 }
 
@@ -59,7 +53,7 @@ exports.runDatabase = async function(){
 exports.buildTable = async function(obj){
     debug('Building Table..');
 
-    var sqlQry = 'CREATE TABLE ' + _dbName + '.'+_tblName+' ( ';
+    var sqlQry = 'CREATE TABLE IF NOT EXISTS ' + _dbName + '.'+_tblName+' ( ';
     var i = 0;
     for (var index in obj) {
         if(typeof(obj[index]) == 'object' && !(obj[index] instanceof Array)){

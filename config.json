@@ -1,0 +1,8 @@
+{
+    "jsonPath" : "../other-tryouts/data.json",
+    "host" : "localhost",
+    "user" : "root",
+    "password" : "root",
+    "dbName" : "accountsDB",
+    "tblName" : "accounts"
+}

@@ -25,13 +25,16 @@ npm install
 
 ## Running the app
 Go to the directory of the app.
+Open the config.json file and edit it with the arguments of your choise.
+Choose a database table that fits the Schema, or choose a non-existing one to be created.
 Now, this command will run the app on your local machine.
 
 ```
-node Json2MySQL.js %fileAdd%
+node Json2MySQL.js [%file_path% [%DB_name% [%table_name%]]]
 ```
-Where %fileAdd% should be replaced with the input JSON file path.
-
+Where %filePath% should be replaced with the input JSON file path,
+%DB_name% should be replaced with the database name
+and %table_name% should be replaced with the table name.
 
 
 Note: to see app's progress with debug comments in the console:
