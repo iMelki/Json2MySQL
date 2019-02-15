@@ -5,12 +5,12 @@
     "node": "8.11.3"
   },
   "description": "input: JSON file path. The app creates a MySQL DB that holds the data from the input file.",
-  "main": "Json2MySQL.js",
+  "main": "index.js",
   "scripts": {
     "test1": "echo \"Error: no test specified\" && exit 1",
-    "test": "SET DEBUG=* & node Json2MySQL.js",
-    "debug": "SET DEBUG=Main,DB & node Json2MySQL.js inputs/accounts.json",
-    "start": "node Json2MySQL.js inputs/accounts.json"
+    "test": "SET DEBUG=* & node index.js",
+    "debug": "SET DEBUG=* & node index.js inputs/accounts.json",
+    "start": "node index.js inputs/accounts.json"
   },
   "author": "Ilan Melki",
   "license": "ISC",

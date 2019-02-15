@@ -2,11 +2,6 @@
 // Require modules:
 var mysql = require('promise-mysql');
 var debug = require('debug')('DB');
-var events = require('events');
-var eventEmitter = new events.EventEmitter();
-
-// Create Events:
-var eventEmitter;
 
 var _connection;
 var _host = "";
@@ -25,10 +20,9 @@ var _tblName = "";
  * @param {*string} userStr DB username
  * @param {*string} pwStr DB password
  */
-exports.init = async function(hostStr, userStr, pwStr, dbName, tblName, emitter){
+exports.init = async function(hostStr, userStr, pwStr, dbName, tblName){
     debug('initializing DB');
-    [_host, _user, _password, _dbName, _tblName, eventEmitter] = [hostStr, userStr, pwStr, dbName, tblName, emitter];
-    //eventEmitter.on('MySql_Connected.', createDB);//createDB//dropDB
+    [_host, _user, _password, _dbName, _tblName] = [hostStr, userStr, pwStr, dbName, tblName];
 }
 
 // Start all functions sequentially 
@@ -36,14 +30,9 @@ exports.init = async function(hostStr, userStr, pwStr, dbName, tblName, emitter)
  * 
  */
 exports.runDatabase = async function(){
-    try{
-        _connection = await crtConnection();
-        //await connectToDB();
-        await createDB();
-    }catch(err){
-        console.log('Error connecting to DB!\n', err);
-        dropDB();
-    }
+    _connection = await crtConnection();
+    //await connectToDB();
+    await createDB();
 }
  
 /**
@@ -53,7 +42,6 @@ exports.runDatabase = async function(){
  */
 exports.buildTable = async function(obj){
     debug('Building Table..');
-
     var sqlQry = 'CREATE TABLE IF NOT EXISTS ' + _dbName + '.'+_tblName+' ( ';
     var i = 0;
     for (var index in obj) {
@@ -65,17 +53,14 @@ exports.buildTable = async function(obj){
         sqlQry += (i + 1 == Object.size(obj) ? '); ' : ', ');
         i++;
     }
-    
-    
-    await _connection.query(sqlQry
-        /*, (err, result) => {
-        if(err){ 
-            debug(sqlQry);
-            throw err;
-        }
-    }*/);
-    debug('Table created!');
-    eventEmitter.emit('Table_created!');
+    try{    
+        await _connection.query(sqlQry);
+        debug('Table created!');
+        return true;
+    }catch(err){
+        throw new Error('Error! Failed creating table "'+ _tblName+'" inside DB "'+_dbName+'".');
+    }
+        
 }
 
 /**
@@ -110,7 +95,6 @@ exports.insertToDB = async function (jsonData) {
                         }
                         mysqlQuery += '"'+valStr.substring(0, valStr.length-1)+'"';
                     }else{
-                        //if(showConsoleComments) console.log(JSON.stringify(jsonData[index]));
                         mysqlQuery += JSOToStr('value',jsonData[index], index);
                     }
                 }else{
@@ -119,8 +103,11 @@ exports.insertToDB = async function (jsonData) {
                 mysqlQuery += (i + 1 == Object.size(jsonData) ? ') ' : ', ');
                 i++;
             }
-            await _connection.query(mysqlQuery);
-            // if(showConsoleComments) console.log(mysqlQuery);
+            try{
+                await _connection.query(mysqlQuery);
+            }catch(err){
+                throw new Error('Failed inserting '+jsonData.name+'. id: '+jsonData._id);
+            }
         }
         else {
             throw new Error('mysql-json [insert]: data has to contain at least one field');
@@ -131,9 +118,9 @@ exports.insertToDB = async function (jsonData) {
     }
 };
  
-exports.endConnection = function(){
+exports.endConnection = async function(){
     debug('end connection.');
-    _connection.end();
+    await _connection.end();
 }
 
 // Accessory Functions:
@@ -154,6 +141,7 @@ async function crtConnection(){
     return connection;
     
 }
+
 /*
 // Connect to DB
 async function connectToDB(){
@@ -167,16 +155,17 @@ async function connectToDB(){
     });
 }
 */
+
 // Create DB
-var createDB = function(){
+async function createDB(){
     debug('creating DB..');
     var sqlQry = 'CREATE DATABASE IF NOT EXISTS '+_dbName;
-    _connection.query(
-        sqlQry/*, function (err, result) {
-        if(err) throw err;
-        eventEmitter.emit('Database_created!');
-    }*/);
-    debug('Database created!');
+    try{
+        await _connection.query(sqlQry);
+        debug('Database created!');
+    }catch(err){
+        throw new Error("Error creating DB");
+    }
 }
 
 /**
@@ -193,7 +182,7 @@ var typeOfValue = function(value){
     }
 }
 
-
+/*
 // Drop DB
 async function dropDB(){
     debug('droping DB..');
@@ -203,7 +192,8 @@ async function dropDB(){
         debug('Database dropped!');
     });
 }
- 
+*/
+
 //a function to calculate an object's size
 Object.size = function(obj) {
     var size = 0, key;
