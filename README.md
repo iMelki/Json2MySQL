@@ -45,7 +45,7 @@ SET DEBUG=Main,DB & node index.js %fileAdd%
 
 
 ## Author
-* **Ilan Melki** 
+* **iMelki** 
 
 
 ## License
