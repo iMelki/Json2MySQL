@@ -119,8 +119,8 @@ exports.insertToDB = async function (jsonData) {
 };
  
 exports.endConnection = async function(){
-    debug('end connection.');
     await _connection.end();
+    debug('connection ended.');
 }
 
 // Accessory Functions:

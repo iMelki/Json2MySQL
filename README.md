@@ -32,20 +32,20 @@ Now, this command will run the app on your local machine.\n
 ```
 node index.js [%file_path% [%DB_name% [%table_name%]]]
 ```
+
+Note: to see app's progress with debug comments in the console:
+```
+SET DEBUG=* & node index.js [%file_path% [%DB_name% [%table_name%]]]
+``` 
+
 Where %filePath% should be replaced with the input JSON file path,\n
 %DB_name% should be replaced with the database name\n
 and %table_name% should be replaced with the table name.
 
 
-Note: to see app's progress with debug comments in the console:
-```
-SET DEBUG=Main,DB & node index.js %fileAdd%
-``` 
-
-
 
 ## Author
-* **Ilan Melki** 
+* **iMelki** 
 
 
 ## License

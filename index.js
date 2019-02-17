@@ -4,11 +4,7 @@ var fs = require( "fs" );
 var JSONStream = require( "JSONStream" );
 var es = require('event-stream');
 var debug = require('debug')('Main');
-var events = require('events');
 var path = require('path');
-
-// Create Events:
-var eventEmitter = new events.EventEmitter();
 
 // Require Configuration settings:
 var config = require('./config.js');
@@ -16,6 +12,7 @@ var config = require('./config.js');
 var db = require('./dbManipulator');
 
 var first = true;
+var i;
 
 /**
  *  a handler for inputing config arguments
@@ -70,14 +67,21 @@ var getStream = function () {
 async function getTableFromFirstObject(){
     return new Promise(function(res, rej){
         debug('Streaming the first JSO from the input file to build a table..');
+        var j=0;
         var firstStream = getStream();
+        firstStream.on('close', async () => { debug('bye First!');})
         firstStream.pipe(es.mapSync(async function(obj) {
                 if (first){
+                    //close. distroy, end
+                    debug('ending firstStream..');
+                    firstStream.end();
                     first = false;
+                    debug('firstStream ended.');
                     var tableCreated = await db.buildTable(obj);
                     if (tableCreated) res();
                     else rej('Error creating table');
-                    //firstStream.distroy();
+                }else{
+                    debug((j++)+' : how did you get through the first object?!');
                 }
             })); 
     });
@@ -87,23 +91,24 @@ async function getTableFromFirstObject(){
 async function startStreaming(){
     return new Promise(function(res, rej){
         debug('Streaming all JSOs from the input file..');
-        getStream()
-            .pipe(es.mapSync(async function (obj) {
-                try{
-                    await db.insertToDB(obj);
-                }catch(err){
-                    console.error(err.message);
-                }
-            }));   
+        secondStream = getStream();
+        secondStream.on('close', async () => {await finishApp(); })
+        secondStream.pipe(es.mapSync(async function (obj) {
+            try{
+                await db.insertToDB(obj);
+            }catch(err){
+                console.error(err.message);
+            }
+        }));   
     });
 }
 
 async function finishApp(){
-    debug('finishApp:');
-    Console.log('The job is done. all Documents have been moved to the new location, found at: \n');
-    Console.log(config.host+', inside table named '+config.tblName+' under database named '+config.dbName+'.\n');
+    debug('finished streaming. queing JSOs to be added to the DB..')
     await db.endConnection();
-    debug('connection ended.');
+    console.log('\nThe job is done. all Documents have been moved to the new location, found at: \n');
+    console.log(config.host+', under database named "'+config.dbName+'", inside table named "'+config.tblName+'".\n');
+    debug('Good bye! :)');
 }
 
 
@@ -111,11 +116,10 @@ async function finishApp(){
 async function startScript(){
     try{
         await validateInput();
-        await db.init(config.host, config.user, config.password, config.dbName, config.tblName, eventEmitter);
+        await db.init(config.host, config.user, config.password, config.dbName, config.tblName);
         await db.runDatabase();
         await getTableFromFirstObject();
         await startStreaming();
-        await finishApp();
     }catch(err){
         await db.endConnection();
         console.error(err.message);
