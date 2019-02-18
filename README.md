@@ -29,7 +29,7 @@ Go to the directory of the app.
 Open the configuration file (config.json) and edit it with the arguments of your choise.  
 Choose a database table that fits the Schema, or choose a non-existing one to be created.  
   
-Now, this command will run the app on your local machine.\n
+Now, this command will run the app on your local machine:
 
 ```
 node index.js [%file_path% [%DB_name% [%table_name%]]]
@@ -43,7 +43,7 @@ SET DEBUG=* & node index.js [%file_path% [%DB_name% [%table_name%]]]
 Where %filePath% should be replaced with the input JSON file path,  
 %DB_name% should be replaced with the database name  
 and %table_name% should be replaced with the table name.  
-If not specified, they'll be taken from the configuration file.  
+They're not mandatory. If not specified, they'll be taken from the configuration file instead.  
 
 
 
