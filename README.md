@@ -8,6 +8,10 @@ These instructions will get you a copy of the project on your local machine to r
 git clone https://github.com/iMelki/Json2MySQL.git
 ```
 
+Before first run: 
+Edit the configuration file as you wish.
+It can be found under the projects main folder, named 'config.json'.
+
 
 ### Prerequisites
 Node.js
@@ -41,6 +45,7 @@ SET DEBUG=* & node index.js [%file_path% [%DB_name% [%table_name%]]]
 Where %filePath% should be replaced with the input JSON file path,\n
 %DB_name% should be replaced with the database name\n
 and %table_name% should be replaced with the table name.
+If not specified, they'll be taken from the configuration file.
 
 
 
