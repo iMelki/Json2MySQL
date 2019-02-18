@@ -42,6 +42,7 @@ exports.runDatabase = async function(){
  */
 exports.buildTable = async function(obj){
     debug('Building Table..');
+    //composing query:
     var sqlQry = 'CREATE TABLE IF NOT EXISTS ' + _dbName + '.'+_tblName+' ( ';
     var i = 0;
     for (var index in obj) {
@@ -53,6 +54,7 @@ exports.buildTable = async function(obj){
         sqlQry += (i + 1 == Object.size(obj) ? '); ' : ', ');
         i++;
     }
+    //execute query:
     try{    
         await _connection.query(sqlQry);
         debug('Table created!');
@@ -123,6 +125,11 @@ exports.endConnection = async function(){
     debug('connection ended.');
 }
 
+exports.execQry = async function(qry){
+    debug("qry is: "+qry);
+    return await _connection.query(qry);
+}
+
 // Accessory Functions:
 ///////////////////////            
 
@@ -182,17 +189,31 @@ var typeOfValue = function(value){
     }
 }
 
-/*
+
 // Drop DB
 async function dropDB(){
     debug('droping DB..');
     var sqlQry = 'DROP DATABASE IF EXISTS '+_dbName;
-    _connection.query(sqlQry, (err, result) => {
-        if(err) throw err;
+    try{
+        await _connection.query(sqlQry);
         debug('Database dropped!');
-    });
+    }catch(err){
+        throw new Error("Error dropping DB");
+    }
 }
-*/
+
+// Drop Table
+exports.dropTable = async function (tblName){
+    debug('droping Table '+tblName+'..');
+    var sqlQry = 'DROP TABLE IF EXISTS '+tblName;
+    try{
+        await _connection.query(sqlQry);
+        debug('Table dropped!');
+    }catch(err){
+        throw err;//new Error("Error dropping table");
+    }
+}
+
 
 //a function to calculate an object's size
 Object.size = function(obj) {

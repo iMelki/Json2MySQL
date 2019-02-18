@@ -1,5 +1,5 @@
 {
-    "jsonPath" : "../other-tryouts/data.json",
+    "jsonPath" : "./inputs/accounts.json",
     "host" : "localhost",
     "user" : "root",
     "password" : "root",

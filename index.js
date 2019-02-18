@@ -57,10 +57,13 @@ async function validateInput(){
 
 // create a stream to read & pass JS objs from the JSON file:
 var getStream = function () {
-    var stream = fs.createReadStream(config.jsonPath, {encoding: 'utf8'}),
-        //transformStream 1 - Parser:
-        parser = JSONStream.parse('*');
+    try{
+        var stream = fs.createReadStream(config.jsonPath, {encoding: 'utf8'});
+        var parser = JSONStream.parse('*');
         return stream.pipe(parser);
+    }catch(err){
+        throw new Error('JSON file corrupted or is not found!');
+    }
 };
 
 //start Streaming to get the first JSO and build the DB Table from its image
@@ -115,6 +118,7 @@ async function finishApp(){
 // Main function:
 async function startScript(){
     try{
+        console.log('working..');
         await validateInput();
         await db.init(config.host, config.user, config.password, config.dbName, config.tblName);
         await db.runDatabase();

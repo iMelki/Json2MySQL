@@ -8,9 +8,9 @@
   "main": "index.js",
   "scripts": {
     "test1": "echo \"Error: no test specified\" && exit 1",
-    "test": "SET DEBUG=* & node index.js",
-    "debug": "SET DEBUG=* & node index.js inputs/accounts.json",
-    "start": "node index.js inputs/accounts.json"
+    "test": "SET DEBUG=DB,test & mocha tests/app.test.js",
+    "debug": "SET DEBUG=* & node index.js",
+    "start": "node index.js"
   },
   "author": "Ilan Melki",
   "license": "ISC",
@@ -19,8 +19,14 @@
     "JSONStream": "^1.3.5",
     "debug": "^4.1.1",
     "event-stream": "3.3.4",
+    "mocha": "^5.2.0",
     "mysql": "^2.16.0",
     "objectid": "^3.2.1",
     "promise-mysql": "^3.3.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "sinon": "^7.2.3"
   }
 }
