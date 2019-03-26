@@ -1,8 +1,8 @@
 {
+    "host" : "192.168.99.104",
     "jsonPath" : "./inputs/accounts.json",
-    "host" : "localhost",
     "user" : "root",
-    "password" : "root",
+    "password" : "123",
     "dbName" : "accountsDB",
     "tblName" : "accounts"
 }

@@ -10,29 +10,27 @@ git clone https://github.com/iMelki/Json2MySQL.git
 
 
 ### Prerequisites
-Node.js
-
-
-### Installing
-Download & Install [Node.js](https://nodejs.org/en/)
-Go to the directory of the app
-Enter the command:
-```
-npm install
-```
-
+Download & Install [Docker](https://www.docker.com/get-started)
 
 
 ## Running the app
-Before first run:  
-Go to the directory of the app.  
+Navigate to the directory of the app. 
+
+Before first run:   
 Open the configuration file (config.json) and edit it with the arguments of your choise.  
 Choose a database table that fits the Schema, or choose a non-existing one to be created.  
+
+
+To build the app, enter the command:
+```
+docker build --tag=json2mysql .
+```
+
   
 Now, this command will run the app on your local machine:
 
 ```
-node index.js [%file_path% [%DB_name% [%table_name%]]]
+docker run json2mysql
 ```
   
 Note: to see app's progress with debug comments in the console:

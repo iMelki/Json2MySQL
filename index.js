@@ -125,8 +125,8 @@ async function startScript(){
         await getTableFromFirstObject();
         await startStreaming();
     }catch(err){
-        await db.endConnection();
         console.error(err.message);
+        await db.endConnection();
     }
 }
 
