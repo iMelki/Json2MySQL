@@ -1,6 +1,6 @@
 # Use an official Python runtime as a parent image
 #FROM mysql:8.0
-FROM node
+FROM node:11.12.0
 
 # Create app directory
 RUN mkdir -p /src/app
