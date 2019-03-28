@@ -1,5 +1,4 @@
-# Use an official Python runtime as a parent image
-#FROM mysql:8.0
+# Use an official node version as a parent image
 FROM node:11.12.0
 
 # Create app directory
@@ -17,10 +16,9 @@ COPY . /src/app
 EXPOSE 8000
 
 # Define environment variable
-#ENV NAME World
+#ENV DEBUG True
 
-# Run app.py when the container launches
-#CMD ["python", "app.py"]
+# Run 
 #CMD ["node", "index.js"]
 #CMD ["npm", "run", "start"]
 CMD ["npm", "run", "debug"]
