@@ -16,7 +16,7 @@ var i;
 
 /**
  *  a handler for inputing config arguments
- * @param argNum the index in the process.argv 
+ * @param argNum the index in the process.argv
  * @param atrName the attribute name inside the config file
  * @returns true if got input. false, otherwise.
  */
@@ -86,11 +86,11 @@ async function getTableFromFirstObject(){
                 }else{
                     debug((j++)+' : how did you get through the first object?!');
                 }
-            })); 
+            }));
     });
 }
 
-//start Streaming and deal with each JSO seperately 
+//start Streaming and deal with each JSO seperately
 async function startStreaming(){
     return new Promise(function(res, rej){
         debug('Streaming all JSOs from the input file..');
@@ -102,7 +102,7 @@ async function startStreaming(){
             }catch(err){
                 console.error(err.message);
             }
-        }));   
+        }));
     });
 }
 
@@ -118,7 +118,7 @@ async function finishApp(){
 // Main function:
 async function startScript(){
     try{
-        console.log('working..');
+        console.log('JSON2MySQL started. \nworking..');
         await validateInput();
         await db.init(config.host, config.user, config.password, config.dbName, config.tblName);
         await db.runDatabase();

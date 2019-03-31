@@ -18,7 +18,7 @@ EXPOSE 8000
 # Define environment variable
 #ENV DEBUG True
 
-# Run 
+# Run
 #CMD ["node", "index.js"]
 #CMD ["npm", "run", "start"]
 CMD ["npm", "run", "debug"]

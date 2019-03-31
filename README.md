@@ -32,12 +32,8 @@ Now, this command will run the app on your local machine:
 ```
 docker run json2mysql
 ```
-  
-Note: to see app's progress with debug comments in the console:
-```
-SET DEBUG=* & node index.js [%file_path% [%DB_name% [%table_name%]]]
-``` 
-  
+
+
 Where %filePath% should be replaced with the input JSON file path,  
 %DB_name% should be replaced with the database name  
 and %table_name% should be replaced with the table name.  
