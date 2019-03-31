@@ -34,12 +34,6 @@ docker run json2mysql
 ```
 
 
-Where %filePath% should be replaced with the input JSON file path,  
-%DB_name% should be replaced with the database name  
-and %table_name% should be replaced with the table name.  
-They're not mandatory. If not specified, they'll be taken from the configuration file instead.  
-
-
 
 ## Author
 * **iMelki** 
