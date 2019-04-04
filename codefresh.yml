@@ -1,5 +1,6 @@
 version: '1.0'
 steps:
+
   BuildingDockerImage:
     title: Building Docker Image
     type: build
@@ -7,3 +8,20 @@ steps:
     working_directory: ./
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     dockerfile: Dockerfile
+
+  PushToDH:
+    type: push
+    title: Push Image to Docker Hub
+    description: Push Docker Image to Docker Hub Registry
+    candidate: ${{BuildingDockerImage}}
+    #tag: latest
+    #image_name: codefresh/app
+    registry: dockerhub
+    fail_fast: false
+    when:
+      branch:
+        only:
+          - master
+    retry:
+      maxAttempts: 2
+      delay: 5
