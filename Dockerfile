@@ -18,6 +18,8 @@ EXPOSE 8000
 # Define environment variable
 #ENV DEBUG True
 
+VOLUME ["/var/lib/docker/volumes/jtmVol"]
+
 # Run
 #CMD ["node", "index.js"]
 #CMD ["npm", "run", "start"]
