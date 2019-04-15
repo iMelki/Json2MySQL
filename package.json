@@ -7,8 +7,9 @@
   "description": "input: JSON file path. The app creates a MySQL DB that holds the data from the input file.",
   "main": "index.js",
   "scripts": {
+    "test": "echo \"Running tests..\" ",
     "test1": "echo \"Error: no test specified\" && exit 1",
-    "test": "SET DEBUG=DB,test & mocha tests/app.test.js",
+    "test2": "SET DEBUG=DB,test & mocha tests/app.test.js",
     "debug": "SET DEBUG=* & node index.js",
     "start": "node index.js"
   },

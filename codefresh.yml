@@ -1,7 +1,7 @@
 version: '1.0'
 steps:
 
-  BuildingDockerImage:
+  MyAppDockerImage:
     title: Building Docker Image
     type: build
     image_name: ilancodefresh/json2mysql
@@ -9,11 +9,18 @@ steps:
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     dockerfile: Dockerfile
 
+  MyUnitTests:
+    title: Running Unit tests
+    stage: test
+    image: ${{MyAppDockerImage}}
+    commands:
+      - npm run test
+
   PushToDH:
     type: push
     title: Push Image to Docker Hub
     description: Push Docker Image to Docker Hub Registry
-    candidate: ${{BuildingDockerImage}}
+    candidate: ${{MyAppDockerImage}}
     #tag: latest
     #image_name: codefresh/app
     registry: dockerhub

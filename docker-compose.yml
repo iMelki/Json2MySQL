@@ -13,11 +13,12 @@ services:
     expose:
       - '3306'
     volumes:
-      - my-db:/var/lib/mysql
+      - jtmVol:/var/lib/docker/volumes/jtmVol
+      #- my-db:/var/lib/mysql
 
   web:
     build: .
 
 
 volumes:
-  my-db:
+  jtmVol:
