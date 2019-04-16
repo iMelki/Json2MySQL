@@ -5,21 +5,25 @@
     "node": "8.11.3"
   },
   "description": "input: JSON file path. The app creates a MySQL DB that holds the data from the input file.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Running tests..\" ",
     "test1": "echo \"Error: no test specified\" && exit 1",
     "test2": "SET DEBUG=DB,test & mocha tests/app.test.js",
-    "debug": "SET DEBUG=* & node index.js",
-    "start": "node index.js"
+    "debug": "SET DEBUG=* & node server.js",
+    "start": "node index.js",
+    "app": "node app.js",
+    "server": "node server.js"
   },
   "author": "Ilan Melki",
   "license": "ISC",
   "dependencies": {
     "JSON": "^1.0.0",
     "JSONStream": "^1.3.5",
+    "body-parser": "^1.18.3",
     "debug": "^4.1.1",
     "event-stream": "3.3.4",
+    "express": "4.16.4",
     "mocha": "^5.2.0",
     "mysql": "^2.16.0",
     "objectid": "^3.2.1",

@@ -23,4 +23,4 @@ VOLUME ["/var/lib/docker/volumes/jtmVol"]
 # Run
 #CMD ["node", "index.js"]
 #CMD ["npm", "run", "start"]
-CMD ["npm", "run", "debug"]
+CMD ["npm", "run", "server"]

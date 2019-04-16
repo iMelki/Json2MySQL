@@ -1,15 +1,17 @@
 
 // Require modules:
-var fs = require( "fs" );
-var JSONStream = require( "JSONStream" );
-var es = require('event-stream');
-var debug = require('debug')('Main');
-var path = require('path');
+const fs = require( "fs" );
+const JSONStream = require( "JSONStream" );
+const es = require('event-stream');
+const debug = require('debug')('Main');
+const path = require('path');
+
+
 
 // Require Configuration settings:
-var config = require('./config.js');
+const config = require('./config.js');
 // Require DB Connection:
-var db = require('./dbManipulator');
+const db = require('./dbManipulator');
 
 var first = true;
 var i;
@@ -90,11 +92,11 @@ async function getTableFromFirstObject(){
     });
 }
 
-//start Streaming and deal with each JSO seperately
+//start Streaming and deal with each JSO separately
 async function startStreaming(){
     return new Promise(function(res, rej){
         debug('Streaming all JSOs from the input file..');
-        secondStream = getStream();
+        var secondStream = getStream();
         secondStream.on('close', async () => {await finishApp(); })
         secondStream.pipe(es.mapSync(async function (obj) {
             try{
@@ -116,12 +118,15 @@ async function finishApp(){
 
 
 // Main function:
-async function startScript(){
+exports.startScript = async function(){
     try{
         console.log('JSON2MySQL started. \nworking..');
         await validateInput();
         await db.init(config.host, config.user, config.password, config.dbName, config.tblName);
         await db.runDatabase();
+        // dlt next row when app's rdy:
+        await db.dropTable(config.tblName);
+        ////////
         await getTableFromFirstObject();
         await startStreaming();
     }catch(err){
@@ -130,7 +135,7 @@ async function startScript(){
     }
 }
 
-startScript();
+
 
 
 
