@@ -16,8 +16,8 @@ services:
       - jtmVol:/var/lib/docker/volumes/jtmVol
       #- my-db:/var/lib/mysql
 
-  web:
-    image: .
+  #web:
+  # image: .
 
 
 volumes:
