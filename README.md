@@ -21,19 +21,12 @@ Open the configuration file (config.json) and edit it with the arguments of your
 Choose a database table that fits the Schema, or choose a non-existing one to be created.  
 
 
-To build the app, enter the command:
+To build & run the app, enter the command:
 ```
-docker build --tag=json2mysql .
-```
-
-  
-Now, this command will run the app on your local machine:
-
-```
-docker run json2mysql
+docker-compose up
 ```
 
-
+ 
 
 ## Author
 * **iMelki** 
