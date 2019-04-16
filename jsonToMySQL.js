@@ -125,7 +125,7 @@ exports.startScript = async function(){
         await db.init(config.host, config.user, config.password, config.dbName, config.tblName);
         await db.runDatabase();
         // dlt next row when app's rdy:
-        await db.dropTable(config.tblName);
+        //await db.dropTable(config.tblName);
         ////////
         await getTableFromFirstObject();
         await startStreaming();
