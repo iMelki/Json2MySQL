@@ -1,7 +1,7 @@
 
 // Require modules:
-var mysql = require('promise-mysql');
-var debug = require('debug')('DB');
+const mysql = require('promise-mysql');
+const debug = require('debug')('DB');
 
 var _connection;
 var _host = "";
@@ -25,20 +25,20 @@ exports.init = async function(hostStr, userStr, pwStr, dbName, tblName){
     [_host, _user, _password, _dbName, _tblName] = [hostStr, userStr, pwStr, dbName, tblName];
 }
 
-// Start all functions sequentially 
+// Start all functions sequentially
 /**
- * 
+ *
  */
 exports.runDatabase = async function(){
     _connection = await crtConnection();
     //await connectToDB();
     await createDB();
 }
- 
+
 /**
  * buildTable gets a JSO
  * and creates a MySQL Table accordingly to its indices
- * @param {Object} obj - the JSO 
+ * @param {Object} obj - the JSO
  */
 exports.buildTable = async function(obj){
     debug('Building Table..');
@@ -55,21 +55,21 @@ exports.buildTable = async function(obj){
         i++;
     }
     //execute query:
-    try{    
+    try{
         await _connection.query(sqlQry);
         debug('Table created!');
         return true;
     }catch(err){
         throw new Error('Error! Failed creating table "'+ _tblName+'" inside DB "'+_dbName+'".');
     }
-        
+
 }
 
 /**
  * insertToDB gets a JSO
  * build & exec an insert MySQL query
- * @param {String} tableName - the table to insert to 
- * @param {Object} jsonData - the JSO 
+ * @param {String} tableName - the table to insert to
+ * @param {Object} jsonData - the JSO
  */
 exports.insertToDB = async function (jsonData) {
     //if(showConsoleComments) console.log("insert Qry:");
@@ -119,7 +119,7 @@ exports.insertToDB = async function (jsonData) {
         throw new Error('mysql-json [insert]: Require JSON data');
     }
 };
- 
+
 exports.endConnection = async function(){
     if (_connection != null){
         await _connection.end();
@@ -133,7 +133,7 @@ exports.execQry = async function(qry){
 }
 
 // Accessory Functions:
-///////////////////////            
+///////////////////////
 
 // Create DB Connection
 async function crtConnection(){
@@ -148,7 +148,7 @@ async function crtConnection(){
         throw new Error("Error creating DB connection");
     }
     return connection;
-    
+
 }
 
 /*
@@ -231,7 +231,7 @@ Object.size = function(obj) {
  * and extracts its indices OR values to MySQL query
  * @param {String} type - the type to insert ('index', 'value' OR 'createTable')
  * @param {Object} jso
- * @param {String} mainIndex - the index of the JSO itself 
+ * @param {String} mainIndex - the index of the JSO itself
  * to add to the indices' column names in the MySQL query
  */
 var JSOToStr = function(type, jso, mainIndex){
