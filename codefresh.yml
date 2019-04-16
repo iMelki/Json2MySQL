@@ -36,3 +36,30 @@ steps:
     retry:
       maxAttempts: 2
       delay: 5
+
+  compose:
+    type: composition
+    title: Run app
+    description: Free text description
+    working_directory: ./
+    composition: docker-compose.yml
+    fail_fast: false
+    when:
+      condition:
+        all:
+          notFeatureBranch: 'match("${{CF_BRANCH}}", "/FB-/", true) == false'
+    on_success:
+      ...
+    on_fail:
+      ...
+    on_finish:
+      ...
+    retry:
+      ...
+
+
+  Run:
+    title: Running Server
+    image: ${{MyAppDockerImage}}
+    commands:
+      - docker-compose up
