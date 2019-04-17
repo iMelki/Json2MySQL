@@ -16,18 +16,21 @@ services:
       - jtmVol:/var/lib/docker/volumes/jtmVol
       #- my-db:/var/lib/mysql
 
-#  web:
+  client:
+    image: ${{MyClientDockerImage}}
+    expose:
+      - '4200'
 #   image: my-app-ui
 #   ports:
 #     - 4200:4200
 
   server:
-    #image: my-app-server
     image: ${{MyServerDockerImage}}
-#    ports:
-#      - 3000:3000
     expose:
       - '3000'
+#    image: my-app-server
+#    ports:
+#      - 3000:3000
 
     #build: .
 
