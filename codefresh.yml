@@ -5,16 +5,16 @@ stages:
 
 steps:
 
-  MyAppDockerImage:
-    title: Building Docker Image
+  MyServerDockerImage:
+    title: Building Server Docker Image
     type: build
     image_name: ilancodefresh/json2mysql
     working_directory: ./
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     dockerfile: Dockerfile
 
-  MyUiDockerImage:
-    title: Building UI Docker Image
+  MyClientDockerImage:
+    title: Building Client Docker Image
     type: build
     image_name: ilancodefresh/my-app-ui
     working_directory: ./
@@ -24,7 +24,7 @@ steps:
   MyUnitTests:
     title: Running Unit tests
     stage: test
-    image: ${{MyAppDockerImage}}
+    image: ${{MyServerDockerImage}}
     commands:
       - npm run test
 
@@ -32,7 +32,7 @@ steps:
     type: push
     title: Push Image to Docker Hub
     description: Push Docker Image to Docker Hub Registry
-    candidate: ${{MyAppDockerImage}}
+    candidate: ${{MyServerDockerImage}}
     #tag: latest
     #image_name: codefresh/app
     registry: dockerhub
@@ -51,3 +51,9 @@ steps:
     description: Free text description
     working_directory: ./
     composition: cf-docker-compose.yml
+
+#   Run:
+#     title: Running Server
+#     image: ${{MyServerDockerImage}}
+#     commands:
+#       - docker-compose up

@@ -23,7 +23,7 @@ services:
 
   server:
     image: my-app-server
-#    image: ${{MyAppDockerImage}}
+#    image: ${{MyServerDockerImage}}
     ports:
       - 3000:3000
     expose:
