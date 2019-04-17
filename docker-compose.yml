@@ -8,8 +8,8 @@ services:
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
-    #ports:
-    #  - '3306:3306'
+    ports:
+      - '3306:3306'
     expose:
       - '3306'
     volumes:
@@ -17,7 +17,16 @@ services:
       #- my-db:/var/lib/mysql
 
   web:
-   image: ${{MyAppDockerImage}}
+   image: my-app-ui
+   ports:
+     - 4200:4200
+
+  server:
+    image: my-app-server
+    ports:
+      - 3000:3000
+
+    #build: .
 
 
 volumes:

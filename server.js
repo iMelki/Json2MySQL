@@ -28,6 +28,7 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res)=> {
     jsonToDB();
+    // extractDataFromDB
     res.send({});
 })
 

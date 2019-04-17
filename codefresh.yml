@@ -13,6 +13,14 @@ steps:
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     dockerfile: Dockerfile
 
+  MyUiDockerImage:
+    title: Building UI Docker Image
+    type: build
+    image_name: ilancodefresh/my-app-ui
+    working_directory: ./
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+    dockerfile: Dockerfile
+
   MyUnitTests:
     title: Running Unit tests
     stage: test
