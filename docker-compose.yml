@@ -16,13 +16,14 @@ services:
       - jtmVol:/var/lib/docker/volumes/jtmVol
       #- my-db:/var/lib/mysql
 
-  web:
-   image: my-app-ui
-   ports:
-     - 4200:4200
+#  web:
+#   image: my-app-ui
+#   ports:
+#     - 4200:4200
 
   server:
-    image: my-app-server
+    #image: my-app-server
+    image: ${{MyAppDockerImage}}
     ports:
       - 3000:3000
 
