@@ -16,10 +16,10 @@ services:
       - jtmVol:/var/lib/docker/volumes/jtmVol
       #- my-db:/var/lib/mysql
 
-  client:
-    image: ${{MyClientDockerImage}}
-    expose:
-      - '4200'
+  # client:
+  #   image: ${{MyClientDockerImage}}
+  #   expose:
+  #     - '4200'
 #   image: my-app-ui
 #   ports:
 #     - 4200:4200

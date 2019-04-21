@@ -51,6 +51,7 @@ steps:
     description: Free text description
     working_directory: ./
     entry_point: server
+    environment_name: Json2MySQL
     composition: cf-docker-compose.yml
 
 #   Run:
