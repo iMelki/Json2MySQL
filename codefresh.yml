@@ -50,6 +50,7 @@ steps:
     title: Run app
     description: Free text description
     working_directory: ./
+    entry_point: server
     composition: cf-docker-compose.yml
 
 #   Run:
