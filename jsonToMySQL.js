@@ -7,14 +7,13 @@ const debug = require('debug')('Main');
 const path = require('path');
 
 
-
 // Require Configuration settings:
 const config = require('./config.js');
 // Require DB Connection:
 const db = require('./dbManipulator');
 
-var first = true;
-var i;
+let first = true;
+let i;
 
 /**
  *  a handler for inputing config arguments
@@ -37,7 +36,7 @@ async function getConfigAtribute(argNum, atrName){
 // validate whether we got all the input needed to run the app
 async function validateInput(){
     debug('validating input..');
-    var i=2;
+    let i=2;
     const gotJSONPath = await getConfigAtribute(i++, 'jsonPath');
     if (gotJSONPath){
         const gotDBName = await getConfigAtribute(i++, 'dbName');
@@ -118,20 +117,30 @@ async function finishApp(){
 
 
 // Main function:
-exports.startScript = async function(){
+exports.startScript = async function(dbName, mySqlUser, mySqlPass, rootPass){
     try{
+        config.initDbParams(dbName, mySqlUser, mySqlPass, rootPass);
         console.log('JSON2MySQL started. \nworking..');
-        await validateInput();
+        //await validateInput();
+        //await db.init(config.host, config.user, config.password, config.dbName, config.tblName);
         await db.init(config.host, config.user, config.password, config.dbName, config.tblName);
         await db.runDatabase();
         // dlt next row when app's rdy:
-        //await db.dropTable(config.tblName);
+        await db.dropTable(config.tblName);
         ////////
         await getTableFromFirstObject();
         await startStreaming();
     }catch(err){
         console.error(err.message);
         await db.endConnection();
+    }
+}
+
+exports.getAllAccounts = async function() {
+    try{
+        return await db.getAllRecords();
+    }catch(err){
+        console.error(err);
     }
 }
 

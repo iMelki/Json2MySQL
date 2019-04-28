@@ -16,7 +16,7 @@ services:
       - jtmVol:/var/lib/docker/volumes/jtmVol
       #- my-db:/var/lib/mysql
 
-  web:
+  client:
    image: my-app-ui
    ports:
      - 4200:4200
@@ -24,6 +24,11 @@ services:
   server:
     image: my-app-server
 #    image: ${{MyServerDockerImage}}
+    environment:
+      MYSQL_DATABASE: db.MYSQL_DATABASE
+      MYSQL_USER: db.MYSQL_USER
+      MYSQL_PASSWORD: db.MYSQL_PASSWORD
+      MYSQL_ROOT_PASSWORD: db.MYSQL_ROOT_PASSWORD
     ports:
       - 3000:3000
     expose:

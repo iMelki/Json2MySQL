@@ -120,6 +120,15 @@ exports.insertToDB = async function (jsonData) {
     }
 };
 
+exports.getAllRecords = async function(){
+    let mysqlQuery = 'SELECT * FROM ' + _dbName+"."+_tblName + ';';
+    try{
+        return await _connection.execQry(mysqlQuery);
+    }catch(err){
+        throw new Error('Failed getting data from DB');
+    }
+}
+
 exports.endConnection = async function(){
     if (_connection != null){
         await _connection.end();
@@ -227,7 +236,7 @@ Object.size = function(obj) {
 };
 
 /**
- * JSOToStr gets a JSO & type of data to extract
+ * JSOToStr gets a JSO & @type of data to extract
  * and extracts its indices OR values to MySQL query
  * @param {String} type - the type to insert ('index', 'value' OR 'createTable')
  * @param {Object} jso

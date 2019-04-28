@@ -5,12 +5,13 @@ var configData = require('./config.json');
 
 debug('imported');
 
-var jsonPath;
-var host;
-var user;
-var password;
-var dbName;
-var tblName;
+let jsonPath;
+let host;
+let user;
+let password;
+let rootPassword;
+let dbName;
+let tblName;
 
 function initConfig(){
     jsonPath = path.resolve(__dirname,  configData.jsonPath);
@@ -25,4 +26,11 @@ initConfig();
 
 module.exports = {
     host, user, password, jsonPath, dbName, tblName
+}
+
+exports.initDbParams = function(dbNameStr, username, pass, rootPass){
+    user = username;
+    password = pass;
+    rootPassword = rootPass;
+    dbName = dbNameStr;
 }

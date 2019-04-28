@@ -6,31 +6,15 @@ const bodyParser = require('body-parser');
 //const knex = require('knex')
 const debug = require('debug')('Server');
 
-
-// Require App:
-const jsonToMySQL = require('./jsonToMySQL');
-
-const jsonToDB = () => {
-    jsonToMySQL
-        .startScript()
-        .then(() => {
-            console.log('finished script.');
-        })
-        .catch(err => {
-            console.error(err.message);
-        });
-}
+// Require ROUTER:
+const indexRouter = require('./routes/index');
 
 const app = express();
 
 //app.use(cors())
 app.use(bodyParser.json());
 
-app.get('/', (req, res)=> {
-    jsonToDB();
-    // extractDataFromDB
-    res.send({});
-})
+app.use('/', indexRouter);
 
 /*
 app.post('/signin', (req, res) => {
@@ -106,5 +90,6 @@ app.put('/image', (req, res) => {
 */
 
 app.listen(3000, ()=> {
+    console.log(process.env.MYSQL_DATABASE);
     console.log('app is running on port 3000');
 })
