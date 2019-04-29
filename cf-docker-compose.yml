@@ -8,18 +8,18 @@ services:
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
-#    ports:
-#      - '3306:3306'
+    ports:
+      - '3306:3306'
     expose:
       - '3306'
     volumes:
       - jtmVol:/var/lib/docker/volumes/jtmVol
       #- my-db:/var/lib/mysql
 
-  client:
-    image: ${{MyClientDockerImage}}
-    expose:
-      - '4200'
+  # client:
+  #   image: ${{MyClientDockerImage}}
+  #   expose:
+  #     - '4200'
 #   image: my-app-ui
 #   ports:
 #     - 4200:4200
@@ -33,8 +33,8 @@ services:
       MYSQL_USER: db.MYSQL_USER
       MYSQL_PASSWORD: db.MYSQL_PASSWORD
       MYSQL_ROOT_PASSWORD: db.MYSQL_ROOT_PASSWORD
-#    ports:
-#      - 3000:3000
+    ports:
+      - 3000:3000
 
     #build: .
 

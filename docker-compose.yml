@@ -16,10 +16,10 @@ services:
       - jtmVol:/var/lib/docker/volumes/jtmVol
       #- my-db:/var/lib/mysql
 
-  client:
-   image: my-app-ui
-   ports:
-     - 4200:4200
+#  client:
+#   image: my-app-ui
+#   ports:
+#     - 4200:4200
 
   server:
     image: my-app-server

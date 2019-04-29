@@ -6,13 +6,13 @@ const jsonToMySQL = require('../jsonToMySQL');
 
 //const jsonToDB = () => {
 async function jsonToDB(){
-    jsonToMySQL(
-        process.env.MYSQL_DATABASE,
-        process.env.MYSQL_USER,
-        process.env.MYSQL_PASSWORD,
-        process.env.MYSQL_ROOT_PASSWORD
-    )
-        .startScript()
+    jsonToMySQL
+        .startScript(
+            process.env.MYSQL_DATABASE,
+            process.env.MYSQL_USER,
+            process.env.MYSQL_PASSWORD,
+            process.env.MYSQL_ROOT_PASSWORD
+        )
         .then(() => {
             console.log('finished insertion script.');
         })
