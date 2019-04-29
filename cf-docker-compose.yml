@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: 'password'
 #    ports:
 #      - '3306:3306'
-    expose:
+    ports:
       - '3306'
     volumes:
       - jtmVol:/var/lib/docker/volumes/jtmVol
@@ -26,7 +26,7 @@ services:
 
   server:
     image: ${{MyServerDockerImage}}
-    expose:
+    ports:
       - '3000'
     environment:
       MYSQL_DATABASE: db.MYSQL_DATABASE
