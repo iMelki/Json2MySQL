@@ -8,7 +8,7 @@ let _host = "";
 let _user = "";
 let _password = "";
 var _dbName = "";
-var _tblName = "";
+let _tblName = "";
 
 
 // Public Functions:
