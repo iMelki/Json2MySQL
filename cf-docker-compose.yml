@@ -1,0 +1,43 @@
+version: '2'
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+#    ports:
+#      - '3306:3306'
+    ports:
+      - '3306'
+    volumes:
+      - jtmVol:/var/lib/docker/volumes/jtmVol
+      #- my-db:/var/lib/mysql
+
+  # client:
+  #   image: ${{MyClientDockerImage}}
+  #   expose:
+  #     - '4200'
+#   image: my-app-ui
+#   ports:
+#     - 4200:4200
+
+  server:
+    image: ${{MyServerDockerImage}}
+    ports:
+      - '3000'
+    environment:
+      MYSQL_DATABASE: db.MYSQL_DATABASE
+      MYSQL_USER: db.MYSQL_USER
+      MYSQL_PASSWORD: db.MYSQL_PASSWORD
+      MYSQL_ROOT_PASSWORD: db.MYSQL_ROOT_PASSWORD
+#    ports:
+#      - 3000:3000
+
+    #build: .
+
+
+volumes:
+  jtmVol:

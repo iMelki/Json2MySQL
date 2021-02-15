@@ -1,0 +1,61 @@
+version: '1.0'
+
+stages:
+  - test
+
+steps:
+
+  MyServerDockerImage:
+    title: Building Server Docker Image
+    type: build
+    image_name: ilancodefresh/json2mysql
+    working_directory: ./
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+    dockerfile: Dockerfile
+
+#  MyClientDockerImage:
+#    title: Building Client Docker Image
+#    type: build
+#    image_name: ilancodefresh/my-app-ui
+#    working_directory: ./
+#    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+#    dockerfile: Dockerfile
+
+  MyUnitTests:
+    title: Running Unit tests
+    stage: test
+    image: ${{MyServerDockerImage}}
+    commands:
+      - npm run test
+
+  PushToDH:
+    type: push
+    title: Push Image to Docker Hub
+    description: Push Docker Image to Docker Hub Registry
+    candidate: ${{MyServerDockerImage}}
+    #tag: latest
+    #image_name: codefresh/app
+    registry: dockerhub
+    fail_fast: false
+    when:
+      branch:
+        only:
+          - master
+    retry:
+      maxAttempts: 2
+      delay: 5
+
+  Run:
+    type: launch-composition
+    title: Run app
+    description: Free text description
+    working_directory: ./
+    entry_point: server
+    environment_name: Json2MySQL
+    composition: cf-docker-compose.yml
+
+#   Run:
+#     title: Running Server
+#     image: ${{MyServerDockerImage}}
+#     commands:
+#       - docker-compose up

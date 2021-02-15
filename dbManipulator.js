@@ -1,14 +1,14 @@
 
 // Require modules:
-var mysql = require('promise-mysql');
-var debug = require('debug')('DB');
+const mysql = require('promise-mysql');
+const debug = require('debug')('DB');
 
-var _connection;
+let _connection;
 var _host = "";
 var _user = "";
-var _password = "";
+let _password = "";
 var _dbName = "";
-var _tblName = "";
+let _tblName = "";
 
 
 // Public Functions:
@@ -25,20 +25,20 @@ exports.init = async function(hostStr, userStr, pwStr, dbName, tblName){
     [_host, _user, _password, _dbName, _tblName] = [hostStr, userStr, pwStr, dbName, tblName];
 }
 
-// Start all functions sequentially 
+// Start all functions sequentially
 /**
- * 
+ *
  */
 exports.runDatabase = async function(){
     _connection = await crtConnection();
     //await connectToDB();
     await createDB();
 }
- 
+
 /**
  * buildTable gets a JSO
  * and creates a MySQL Table accordingly to its indices
- * @param {Object} obj - the JSO 
+ * @param {Object} obj - the JSO
  */
 exports.buildTable = async function(obj){
     debug('Building Table..');
@@ -55,21 +55,21 @@ exports.buildTable = async function(obj){
         i++;
     }
     //execute query:
-    try{    
+    try{
         await _connection.query(sqlQry);
         debug('Table created!');
         return true;
     }catch(err){
         throw new Error('Error! Failed creating table "'+ _tblName+'" inside DB "'+_dbName+'".');
     }
-        
+
 }
 
 /**
  * insertToDB gets a JSO
  * build & exec an insert MySQL query
- * @param {String} tableName - the table to insert to 
- * @param {Object} jsonData - the JSO 
+ * @param {String} tableName - the table to insert to
+ * @param {Object} jsonData - the JSO
  */
 exports.insertToDB = async function (jsonData) {
     //if(showConsoleComments) console.log("insert Qry:");
@@ -119,10 +119,21 @@ exports.insertToDB = async function (jsonData) {
         throw new Error('mysql-json [insert]: Require JSON data');
     }
 };
- 
+
+exports.getAllRecords = async function(){
+    let mysqlQuery = 'SELECT * FROM ' + _dbName+"."+_tblName + ';';
+    try{
+        return await _connection.execQry(mysqlQuery);
+    }catch(err){
+        throw new Error('Failed getting data from DB');
+    }
+}
+
 exports.endConnection = async function(){
-    await _connection.end();
-    debug('connection ended.');
+    if (_connection != null){
+        await _connection.end();
+        debug('connection ended.');
+    }
 }
 
 exports.execQry = async function(qry){
@@ -131,7 +142,7 @@ exports.execQry = async function(qry){
 }
 
 // Accessory Functions:
-///////////////////////            
+///////////////////////
 
 // Create DB Connection
 async function crtConnection(){
@@ -146,7 +157,7 @@ async function crtConnection(){
         throw new Error("Error creating DB connection");
     }
     return connection;
-    
+
 }
 
 /*
@@ -225,11 +236,11 @@ Object.size = function(obj) {
 };
 
 /**
- * JSOToStr gets a JSO & type of data to extract
+ * JSOToStr gets a JSO & @type of data to extract
  * and extracts its indices OR values to MySQL query
  * @param {String} type - the type to insert ('index', 'value' OR 'createTable')
  * @param {Object} jso
- * @param {String} mainIndex - the index of the JSO itself 
+ * @param {String} mainIndex - the index of the JSO itself
  * to add to the indices' column names in the MySQL query
  */
 var JSOToStr = function(type, jso, mainIndex){

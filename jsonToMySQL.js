@@ -1,22 +1,23 @@
 
 // Require modules:
-var fs = require( "fs" );
-var JSONStream = require( "JSONStream" );
-var es = require('event-stream');
-var debug = require('debug')('Main');
-var path = require('path');
+const fs = require( "fs" );
+const JSONStream = require( "JSONStream" );
+const es = require('event-stream');
+const debug = require('debug')('Main');
+const path = require('path');
+
 
 // Require Configuration settings:
-var config = require('./config.js');
+const config = require('./config.js');
 // Require DB Connection:
-var db = require('./dbManipulator');
+const db = require('./dbManipulator');
 
-var first = true;
-var i;
+let first = true;
+let i;
 
 /**
  *  a handler for inputing config arguments
- * @param argNum the index in the process.argv 
+ * @param argNum the index in the process.argv
  * @param atrName the attribute name inside the config file
  * @returns true if got input. false, otherwise.
  */
@@ -35,7 +36,7 @@ async function getConfigAtribute(argNum, atrName){
 // validate whether we got all the input needed to run the app
 async function validateInput(){
     debug('validating input..');
-    var i=2;
+    let i=2;
     const gotJSONPath = await getConfigAtribute(i++, 'jsonPath');
     if (gotJSONPath){
         const gotDBName = await getConfigAtribute(i++, 'dbName');
@@ -86,15 +87,15 @@ async function getTableFromFirstObject(){
                 }else{
                     debug((j++)+' : how did you get through the first object?!');
                 }
-            })); 
+            }));
     });
 }
 
-//start Streaming and deal with each JSO seperately 
+//start Streaming and deal with each JSO separately
 async function startStreaming(){
     return new Promise(function(res, rej){
         debug('Streaming all JSOs from the input file..');
-        secondStream = getStream();
+        var secondStream = getStream();
         secondStream.on('close', async () => {await finishApp(); })
         secondStream.pipe(es.mapSync(async function (obj) {
             try{
@@ -102,7 +103,7 @@ async function startStreaming(){
             }catch(err){
                 console.error(err.message);
             }
-        }));   
+        }));
     });
 }
 
@@ -116,21 +117,34 @@ async function finishApp(){
 
 
 // Main function:
-async function startScript(){
+exports.startScript = async function(dbName, mySqlUser, mySqlPass, rootPass){
     try{
-        console.log('working..');
-        await validateInput();
+        config.initDbParams(dbName, mySqlUser, mySqlPass, rootPass);
+        console.log('JSON2MySQL started. \nworking..');
+        //await validateInput();
+        //await db.init(config.host, config.user, config.password, config.dbName, config.tblName);
         await db.init(config.host, config.user, config.password, config.dbName, config.tblName);
         await db.runDatabase();
+        // dlt next row when app's rdy:
+        await db.dropTable(config.tblName);
+        ////////
         await getTableFromFirstObject();
         await startStreaming();
     }catch(err){
-        await db.endConnection();
         console.error(err.message);
+        await db.endConnection();
     }
 }
 
-startScript();
+exports.getAllAccounts = async function() {
+    try{
+        return await db.getAllRecords();
+    }catch(err){
+        console.error(err);
+    }
+}
+
+
 
 
 
