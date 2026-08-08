@@ -57,5 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+# Optional local database configuration (may contain credentials)
+config.local.json
+
 # next.js build output
 .next

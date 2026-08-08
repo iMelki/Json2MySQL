@@ -1,8 +1,8 @@
 {
     "jsonPath" : "./inputs/accounts.json",
     "host" : "localhost",
-    "user" : "root",
-    "password" : "root",
+    "user" : "",
+    "password" : "",
     "dbName" : "accountsDB",
     "tblName" : "accounts"
 }

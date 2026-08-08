@@ -1,7 +1,13 @@
 var debug = require('debug')('config');
+var fs = require('fs');
 var path = require('path');
 var configData = require('./config.json');
-//var configData = JSON.parse(configStr);
+
+var localConfigPath = path.resolve(__dirname, 'config.local.json');
+if (fs.existsSync(localConfigPath)) {
+    var localConfigData = JSON.parse(fs.readFileSync(localConfigPath, 'utf8'));
+    configData = Object.assign({}, configData, localConfigData);
+}
 
 debug('imported');
 
@@ -12,13 +18,21 @@ var password;
 var dbName;
 var tblName;
 
+function getSetting(envName, configName){
+    if (Object.prototype.hasOwnProperty.call(process.env, envName)) {
+        return process.env[envName];
+    }
+    return configData[configName];
+}
+
 function initConfig(){
-    jsonPath = path.resolve(__dirname,  configData.jsonPath);
-    host = configData.host;
-    user = configData.user;
-    password = configData.password;
-    dbName = configData.dbName;
-    tblName = configData.tblName;
+    var configuredJsonPath = getSetting('JSON2MYSQL_INPUT_PATH', 'jsonPath');
+    jsonPath = configuredJsonPath ? path.resolve(__dirname, configuredJsonPath) : '';
+    host = getSetting('MYSQL_HOST', 'host');
+    user = getSetting('MYSQL_USER', 'user');
+    password = getSetting('MYSQL_PASSWORD', 'password');
+    dbName = getSetting('MYSQL_DATABASE', 'dbName');
+    tblName = getSetting('MYSQL_TABLE', 'tblName');
 }
 
 initConfig();
