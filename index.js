@@ -54,6 +54,17 @@ async function validateInput(){
     }
 }
 
+// Fail before opening a connection when no database credentials were supplied.
+async function validateDatabaseConfig(){
+    var missing = [];
+    if (!config.host || config.host.length === 0) missing.push('MYSQL_HOST');
+    if (!config.user || config.user.length === 0) missing.push('MYSQL_USER');
+    if (!config.password || config.password.length === 0) missing.push('MYSQL_PASSWORD');
+    if (missing.length > 0){
+        throw new Error('Database connection is not configured. Set '+missing.join(', ')+' in the environment or in ignored config.local.json.');
+    }
+}
+
 
 // create a stream to read & pass JS objs from the JSON file:
 var getStream = function () {
@@ -120,6 +131,7 @@ async function startScript(){
     try{
         console.log('working..');
         await validateInput();
+        await validateDatabaseConfig();
         await db.init(config.host, config.user, config.password, config.dbName, config.tblName);
         await db.runDatabase();
         await getTableFromFirstObject();

@@ -12,7 +12,6 @@
     "debug": "SET DEBUG=* & node index.js",
     "start": "node index.js"
   },
-  "author": "Ilan Melki",
   "license": "ISC",
   "dependencies": {
     "JSON": "^1.0.0",
